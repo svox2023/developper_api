@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 import os
+from decouple import config
+import dj_database_url
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,7 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(^xud&(ty)5#=q$&@+tsc2=46faz^%qht(%-+dzcdn%nby05qo'
+
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -121,14 +124,15 @@ WSGI_APPLICATION = 'developper_api.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {  # Base de données principale
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'api_rest_db',  
-        'USER': 'root',
-        'PASSWORD': 'Pilote1992@',  
-        'HOST': '127.0.0.1',  # Hôte MySQL
-        'PORT': '3306',  # Port MySQL
+    'default': { 'ENGINE': 'django.db.backends.mysql',
+                 'NAME': config('DB_NAME'), 
+                 'USER': config('DB_USER'),
+                   'PASSWORD': config('DB_PASSWORD'), 
+                   'HOST': config('DB_HOST'), 
+                   'PORT': config('DB_PORT'), 
+   },
     },
+DATABASES = {
     'sqlite': {  # Base de données secondaire (SQLite3)
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
